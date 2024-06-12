@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { promisify } from 'util';
+import {promisify} from 'util';
 import client from './prisma/client.mjs';
 
 const scrypt = promisify(crypto.scrypt);
@@ -22,20 +22,16 @@ export const verifyPassword = async (user, suppliedPassword) => {
 
 export const createUser = async (email, password) => {
   const hashedPassword = await hashPassword(password);
-  const user = await client.user.create({
+  return await client.user.create({
     data: {
       email,
       password: hashedPassword,
     },
   });
-
-  return user;
 };
 
 export const getUserByEmail = async (email) => {
-  const user = await client.user.findUnique({
-    where: { email },
+  return await client.user.findUnique({
+    where: {email},
   });
-
-  return user;
 };

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
+import {useEffect, useState} from 'react';
+import {createPortal} from 'react-dom';
 import ExplanationPanel from './ExplanationPopup';
 
 function ExplanationList({ editorRef, selections, onExplanationClose }) {
@@ -30,17 +30,15 @@ function ExplanationList({ editorRef, selections, onExplanationClose }) {
     setWidgets(updateWidgets);
   }, [selections, editorRef]);
 
-  const renderedZones = widgets.map((widget) => {
+  return widgets.map((widget) => {
     if (widget.domNode && widget.domNode.nodeType === 1) {
       return createPortal(
-        <ExplanationPanel selection={widget} onClose={onExplanationClose} />,
-        widget.domNode
+          <ExplanationPanel selection={widget} onClose={onExplanationClose}/>,
+          widget.domNode
       );
     }
     return null;
   });
-
-  return renderedZones;
 }
 
 function buildWidget(selection) {
